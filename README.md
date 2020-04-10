@@ -13,4 +13,4 @@
 ## Công việc cần làm
 
 -   [ ] Vạch ra những công việc cần làm .\_.
--   [ ] Đọc về `fork()`, `exec()`, `wait()`, `dup2()`, `pipe()`
+-   [ ] Đọc về `fork()`, `exec()`, `wait()`, `dup2()`, `pipe()`u
