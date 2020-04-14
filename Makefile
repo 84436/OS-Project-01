@@ -11,12 +11,13 @@ SRC_DIR	:=	src
 BIN_DIR	:=	bin
 SRC		:=	$(wildcard $(SRC_DIR)/*.c)
 
-all: $(BIN_DIR) osh
+all: osh
+
+osh: $(SRC) $(BIN_DIR)
+	$(CC) $(CCFLAGS) -o $(BIN_DIR)/$@ $(SRC)
+
 $(BIN_DIR):
 	mkdir $@
-
-osh: $(SRC)
-	$(CC) $(CCFLAGS) -o $(BIN_DIR)/$@ $<
 
 clean:
 	rm -rf $(BIN_DIR)
