@@ -30,12 +30,11 @@ int main() {
             continue;
         }
 
-        if (user_cmd[0] == '!' && (user_cmd[1] == '!' || user_cmd[1] != '\0'))
+        if (user_cmd[0] == '!')
         {
-            if (user_cmd[1] == '!')
-                user_cmd[1] = '1';
-
-            char *last_cmd = get_history(cmd_history, history_count, user_cmd[1]);
+            int index = getIndex(user_cmd, history_count);
+            char *last_cmd = get_history(cmd_history, history_count, index);
+            
             if (last_cmd != NULL){
                 strcpy(user_cmd, last_cmd);
                 printf("%s%s\n",SHELLNAME, user_cmd);

@@ -12,6 +12,9 @@ void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_co
 {
     int current_history = (int)*history_count;
 
+    if (strcmp(history[current_history - 1], "history") == 0 && strcmp(history[current_history - 1], cmd) == 0)
+        return;
+
     if (current_history == 0)
     {
         strcpy(history[0], cmd);
@@ -35,10 +38,8 @@ void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_co
     *history_count = current_history;
 }
 
-char *get_history(char *history[LINE_LENGTH], int history_count, const char x)
+char *get_history(char *history[LINE_LENGTH], int history_count, int index)
 {
-    int index = x - '0';
-
     if (index > history_count || index - 1 < 0 || history_count == 0)
     {
         return NULL;
@@ -54,4 +55,23 @@ void export_history(char *history[LINE_LENGTH], int history_count)
     {
         printf("[%d] %s\n", i + 1, history[i]);
     }
+}
+
+int getIndex(char cmd[], int history_count)
+{
+    if (cmd[1] == '!' && cmd[2] == '\0')
+        return history_count;
+    
+    char *index_array = (char *)malloc(LINE_LENGTH - 1);
+    int i = 1;
+    while (cmd[i] != '\0')
+    {
+        if(!isdigit(cmd[i]))
+            return -1;
+
+        index_array[i - 1] = cmd[i];
+        i = i + 1;
+    }
+
+    return atoi(index_array);
 }
