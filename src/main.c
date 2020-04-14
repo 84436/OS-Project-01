@@ -2,11 +2,9 @@
 
 int main() {
     bool is_running = true;
-    pid_t pid;
     int wait;
     //wait = 0 normal command execute | wait = 1 command execute in background.
     char *argv[BUFFER_LENGTH];
-    int status = 0;
     char user_cmd[LINE_LENGTH];
 
     //where the history is saved

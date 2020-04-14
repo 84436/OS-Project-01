@@ -10,6 +10,7 @@ void child(char *argv[])
 
 void parent(pid_t child_pid,int wait)
 {
+    static int count_bg_process = 0;
     int status;
     switch (wait) {
         // parent and child run concurrently, normal case.
@@ -20,17 +21,14 @@ void parent(pid_t child_pid,int wait)
         // parrent wait for child - when child terminated, parent rev and rerun.
         // case '&' | run in background.
         default:
+            count_bg_process += 1;
+            printf("[%d] %d\n",count_bg_process,child_pid);
             waitpid(child_pid, &status, WUNTRACED);
-            //For debug:
-            if (WIFEXITED(status) == 0)
+            if (WIFEXITED(status))
             //This macro returns a nonzero value if the child process terminated normally with exit or _exit.
             {
-                printf("$ Error");
-            }
-
-            else
-            {
-                printf("Child process %d exit with status %d.\n",child_pid,status);
+                count_bg_process -=1;
+                printf("[%d] is finished and exited with status %d\n",child_pid,status);
             }
             break;
     }
