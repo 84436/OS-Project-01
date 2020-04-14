@@ -5,6 +5,8 @@ int main() {
     int wait;
     //wait = 0 normal command execute | wait = 1 command execute in background.
     char *argv[BUFFER_LENGTH];
+    char *argv2[BUFFER_LENGTH]; // parse2()
+    unsigned op = 0;            // parse2()
     char user_cmd[LINE_LENGTH];
 
     //where the history is saved
@@ -57,7 +59,22 @@ int main() {
         }
 
         //TODO: tokenizer here
-        parse_cmd(user_cmd, argv, &wait);
+        // parse_cmd(user_cmd, argv, &wait);
+        parse2(user_cmd, argv, &op, argv2);
+        switch (op)
+        {
+            case OP_BG:
+                wait = 1; // Compatiability
+                break;
+            case OP_FROMFILE:
+            case OP_TOFILE:
+            case OP_PIPE:
+                printf("op: Not yet implemented.\n");
+                break;
+            case OP_NOTSP:
+                printf("op: Invalid or not supported syntax.\n");
+                break;
+        }
         if (strcmp(user_cmd,"cd") == 0)
         {
             if (built_in_cd(argv))
@@ -73,7 +90,9 @@ int main() {
                 perror("fork() failed!");
                 exit(EXIT_FAILURE);
             case 0:
-                child(argv);
+                // parse2() : temporary block
+                if (!(op == OP_FROMFILE || op == OP_TOFILE || op == OP_PIPE || op == OP_NOTSP))
+                    child(argv);
                 exit(EXIT_FAILURE);
             default: {
                 parent(pid,wait);

@@ -13,8 +13,15 @@
 #define BUFFER_LENGTH 100
 #define HISTSIZE 20 //size of history array
 
+#define OP_NOTSP    0x15 // NAK; not supported 
+#define OP_BG       0x26 // &
+#define OP_FROMFILE 0x3C // <
+#define OP_TOFILE   0x3E // >
+#define OP_PIPE     0x7C // |
+
 // Parser
 void parse_cmd(char input[], char *argv[], int *wait);
+void parse2(char* input, char** args1, unsigned* op, char** args2);
 
 // Execution
 void child(char *argv[]);
