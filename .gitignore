@@ -1,1 +1,9 @@
+# CMake (?)
 ./src/cmake-build-debug/*
+
+# VSCode workspace
+.vscode
+
+# Standard bin/obj
+bin
+obj
