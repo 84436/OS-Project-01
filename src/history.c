@@ -11,9 +11,10 @@ void init_history(char *history[LINE_LENGTH])
 void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_count)
 {
     int current_history = (int)*history_count;
-
+    if (current_history != 0){
     if (strcmp(history[current_history - 1], "history") == 0 && strcmp(history[current_history - 1], cmd) == 0)
         return;
+    }
 
     if (current_history == 0)
     {
