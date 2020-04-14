@@ -26,3 +26,7 @@ void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_co
 char *get_history(char *history[LINE_LENGTH], int history_count, int index);
 void export_history(char *history[LINE_LENGTH], int history_count);
 int getIndex(char cmd[], int history_count);
+
+
+//Built-in
+int built_in_cd(char **args);

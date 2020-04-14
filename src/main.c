@@ -28,6 +28,8 @@ int main() {
             continue;
         }
 
+
+
         if (user_cmd[0] == '!')
         {
             int index = getIndex(user_cmd, history_count);
@@ -56,7 +58,11 @@ int main() {
 
         //TODO: tokenizer here
         parse_cmd(user_cmd, argv, &wait);
-
+        if (strcmp(user_cmd,"cd") == 0)
+        {
+            if (built_in_cd(argv))
+                continue;
+        }
         //TODO: pipe and i/o here
 
 
