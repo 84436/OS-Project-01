@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <fcntl.h>
+#include <sys/stat.h>
 
 #define LINE_LENGTH 100
 #define SHELLNAME "banhxeo> " //flexible <?>
