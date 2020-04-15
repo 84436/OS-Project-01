@@ -11,7 +11,6 @@
 #include <sys/stat.h>
 
 #define LINE_LENGTH 100
-//#define SHELLNAME "banhxeo> " //flexible <?>
 #define BUFFER_LENGTH 100
 #define HISTSIZE 20 //size of history array
 
@@ -53,3 +52,5 @@ int getIndex(char cmd[], int history_count);
 
 //Built-in
 int built_in_cd(char **args);
+
+int built_in_PS1(char** args);

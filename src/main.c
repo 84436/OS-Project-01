@@ -1,7 +1,7 @@
 #include "_includes_.h"
 
 int main() {
-    setenv("SHELLNAME", "banhxeo> ", 1);
+    setenv("SHELLNAME", "banhxeo> ", 1); //startup shell name
 
     bool is_running = true;
     int wait;
@@ -18,7 +18,7 @@ int main() {
 
     while (is_running) {
         char* SHELLNAME = getenv("SHELLNAME");
-        printf(SHELLNAME);
+        printf("%s", SHELLNAME);
         fflush(stdout);
         while (fgets(user_cmd, LINE_LENGTH, stdin) == NULL) {
             perror("Wrong input!");
@@ -64,15 +64,6 @@ int main() {
         //TODO: tokenizer here
         // parse_cmd(user_cmd, argv, &wait);
         parse2(user_cmd, argv, &op, argv2);
-
-        if(strcmp(strtok(user_cmd, " "), "PS1") == 0){
-            char* new_shellname = malloc(100);
-            strcat(new_shellname, argv[1]);
-            strcat(new_shellname, "> ");
-            setenv("SHELLNAME", new_shellname, 1);
-            continue;
-        }
-
         wait = 0;
         switch (op)
         {
@@ -91,13 +82,17 @@ int main() {
             default:
                 break;
         }
+
         if (strcmp(user_cmd,"cd") == 0)
         {
             if (built_in_cd(argv))
                 continue;
         }
-        //TODO: pipe and i/o here
 
+        if(strcmp(user_cmd, "PS1") == 0){
+            if (built_in_PS1(argv))
+                continue;
+        }
 
         pid_t pid = fork();
 
