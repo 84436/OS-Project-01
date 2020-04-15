@@ -61,6 +61,7 @@ int main() {
         //TODO: tokenizer here
         // parse_cmd(user_cmd, argv, &wait);
         parse2(user_cmd, argv, &op, argv2);
+        wait = 0;
         switch (op)
         {
             case OP_BG:
