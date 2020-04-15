@@ -37,6 +37,41 @@ void child_tofile(char **argv, char **dir) {
     child(argv);
 }
 
+void child_pipe(char **argv_in, char **argv_out) {
+    int fd[2]; //file description of in: fd[0] and out: fd[1]
+
+    if (pipe(fd) == -1) //fd[0] is set up for reading, fd[1] is set up for writing
+    {
+        perror("Failed to pipe cmd");
+        exit(EXIT_FAILURE);
+    }
+    //first argv's fork
+    if (fork() == 0) {
+        dup2(fd[1], STDOUT_FILENO);
+
+        if (close(fd[0]) == -1 || close(fd[1]) == -1) {
+            perror("Unexpected error when make a pipe I/O");
+        }
+        child(argv_in);
+        exit(EXIT_FAILURE); //prevent access to second argv's fork
+    }
+    //second argv's fork
+    if (fork() == 0) {
+        dup2(fd[0], STDIN_FILENO);
+        if (close(fd[1]) == -1 || close(fd[0]) == -1) {
+            perror("Unexpected error when make a pipe I/O");
+        }
+        child(argv_out);
+        exit(EXIT_FAILURE);
+    }
+
+    close(fd[0]);
+    close(fd[1]);
+    //wait for child 1
+    wait(0);
+    //wait for child 2
+    wait(0);
+}
 
 void parent(pid_t child_pid, int wait) {
     static int count_bg_process = 0;

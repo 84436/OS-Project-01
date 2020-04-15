@@ -35,6 +35,8 @@ void child_tofile(char **argv, char **dir);
 
 void parent(pid_t child_pid, int wait);
 
+void child_pipe(char **argv_in, char **argv_out);
+
 // History
 void init_history(char *history[LINE_LENGTH]);
 

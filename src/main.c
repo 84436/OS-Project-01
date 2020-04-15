@@ -72,7 +72,6 @@ int main() {
             case OP_TOFILE:
                 break;
             case OP_PIPE:
-                printf("op: Not yet implemented.\n");
                 break;
             case OP_NOTSP:
                 printf("op: Invalid or not supported syntax.\n");
@@ -102,6 +101,8 @@ int main() {
                     child_fromfile(argv, argv2);
                 else if (op == OP_TOFILE)
                     child_tofile(argv, argv2);
+                else if (op == OP_PIPE)
+                    child_pipe(argv, argv2);
                 exit(EXIT_FAILURE);
             default: {
                 parent(pid,wait);
