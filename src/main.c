@@ -1,6 +1,8 @@
 #include "_includes_.h"
 
 int main() {
+    setenv("SHELLNAME", "banhxeo> ", 1);
+
     bool is_running = true;
     int wait;
     //wait = 0 normal command execute | wait = 1 command execute in background.
@@ -15,6 +17,7 @@ int main() {
     init_history(cmd_history);
 
     while (is_running) {
+        char* SHELLNAME = getenv("SHELLNAME");
         printf(SHELLNAME);
         fflush(stdout);
         while (fgets(user_cmd, LINE_LENGTH, stdin) == NULL) {
@@ -61,6 +64,15 @@ int main() {
         //TODO: tokenizer here
         // parse_cmd(user_cmd, argv, &wait);
         parse2(user_cmd, argv, &op, argv2);
+
+        if(strcmp(strtok(user_cmd, " "), "PS1") == 0){
+            char* new_shellname = malloc(100);
+            strcat(new_shellname, argv[1]);
+            strcat(new_shellname, "> ");
+            setenv("SHELLNAME", new_shellname, 1);
+            continue;
+        }
+
         wait = 0;
         switch (op)
         {

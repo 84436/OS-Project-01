@@ -11,7 +11,7 @@
 #include <sys/stat.h>
 
 #define LINE_LENGTH 100
-#define SHELLNAME "banhxeo> " //flexible <?>
+//#define SHELLNAME "banhxeo> " //flexible <?>
 #define BUFFER_LENGTH 100
 #define HISTSIZE 20 //size of history array
 
