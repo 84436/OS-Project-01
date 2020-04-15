@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <fcntl.h>
 
 #define LINE_LENGTH 100
 #define SHELLNAME "banhxeo> " //flexible <?>
@@ -21,17 +22,29 @@
 
 // Parser
 void parse_cmd(char input[], char *argv[], int *wait);
-void parse2(char* input, char** args1, unsigned* op, char** args2);
+
+void parse2(char *input, char **args1, unsigned *op, char **args2);
 
 // Execution
 void child(char *argv[]);
-void parent(pid_t child_pid,int wait);
+
+void child_fromfile(char **argv, char **dir);
+
+void child_tofile(char **argv, char **dir);
+
+void parent(pid_t child_pid, int wait);
 
 // History
 void init_history(char *history[LINE_LENGTH]);
+
+void free_history(char *history[LINE_LENGTH]);
+
 void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_count);
+
 char *get_history(char *history[LINE_LENGTH], int history_count, int index);
+
 void export_history(char *history[LINE_LENGTH], int history_count);
+
 int getIndex(char cmd[], int history_count);
 
 

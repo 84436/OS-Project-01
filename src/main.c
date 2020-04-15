@@ -68,12 +68,16 @@ int main() {
                 wait = 1; // Compatiability
                 break;
             case OP_FROMFILE:
+                break;
             case OP_TOFILE:
+                break;
             case OP_PIPE:
                 printf("op: Not yet implemented.\n");
                 break;
             case OP_NOTSP:
                 printf("op: Invalid or not supported syntax.\n");
+                break;
+            default:
                 break;
         }
         if (strcmp(user_cmd,"cd") == 0)
@@ -94,6 +98,10 @@ int main() {
                 // parse2() : temporary block
                 if (!(op == OP_FROMFILE || op == OP_TOFILE || op == OP_PIPE || op == OP_NOTSP))
                     child(argv);
+                else if (op == OP_FROMFILE)
+                    child_fromfile(argv, argv2);
+                else if (op == OP_TOFILE)
+                    child_tofile(argv, argv2);
                 exit(EXIT_FAILURE);
             default: {
                 parent(pid,wait);
@@ -104,7 +112,7 @@ int main() {
 
     }
 
-    //Free history space?
+    free_history(cmd_history);
 
     return 0;
 }
