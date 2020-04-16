@@ -2,20 +2,28 @@
 
 int built_in_cd(char **args)
 {
-
-    if (args[1] == NULL || args[2] != NULL) {
-        fprintf(stderr, "cd to unknown directory\n");
-        //perror: return Success :<
-    } else {
-        if (chdir(args[1]) != 0) {
-            perror("cd failed");
-        }
-    }
-    return 1;
+   if (args[1] == NULL || args[2] != NULL) {
+       fprintf(stderr,"cd to unknown directory\n");
+       //perror: return Success :<
+   } else {
+     if (chdir(args[1]) != 0) {
+       perror("cd failed");
+     }
+  }
+   return 1;
 }
 
 int built_in_PS1(char** args){
    char* new_shellname = malloc(LINE_LENGTH);
+
+   // reset on args[1] empty
+   if(args[1] == NULL)
+   {
+      if (setenv("SHELLNAME", PS1_DEFAULT, 1) != 0){ //set env var to new shell name
+         perror("PS1 failed. You are extra screwed.");
+      }
+      return 1;
+   }
    
    strcat(new_shellname, args[1]); //create new shell name with ">"
    strcat(new_shellname, "> ");
@@ -53,7 +61,9 @@ int built_in_help(char** args)
    
    static char _HELP_STRING_PS1[] =
       "banhxeOSH | PS1\n"
-      "Syntax: PS1 <prompt>\n"
+      "Syntax: PS1 [prompt]\n"
+      "Change the shell prompt.\n"
+      "If no prompt is given, reset to default.\n"
       "\n";
 
    static char _HELP_STRING_HISTORY[] =

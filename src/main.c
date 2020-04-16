@@ -1,7 +1,7 @@
 #include "_includes_.h"
 
 int main() {
-    setenv("SHELLNAME", "banhxeo> ", 1); //startup shell name
+    setenv("SHELLNAME", PS1_DEFAULT, 1); //startup shell name
 
     bool is_running = true;
     int wait;

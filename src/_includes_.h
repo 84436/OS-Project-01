@@ -10,9 +10,10 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#define LINE_LENGTH 100
-#define BUFFER_LENGTH 100
-#define HISTSIZE 20 //size of history array
+#define LINE_LENGTH     100
+#define BUFFER_LENGTH   100
+#define HISTSIZE        20      // size of history array
+#define PS1_DEFAULT     "banhxeo> "
 
 #define OP_NOTSP    0x15 // NAK; not supported 
 #define OP_BG       0x26 // &
