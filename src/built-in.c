@@ -2,15 +2,16 @@
 
 int built_in_cd(char **args)
 {
-   if (args[1] == NULL) {
-       fprintf(stderr,"cd to unknown directory");
-       //perror: return Success :<
-} else {
-     if (chdir(args[1]) != 0) {
-       perror("cd failed");
-     }
-  }
-   return 1;
+
+    if (args[1] == NULL || args[2] != NULL) {
+        fprintf(stderr, "cd to unknown directory\n");
+        //perror: return Success :<
+    } else {
+        if (chdir(args[1]) != 0) {
+            perror("cd failed");
+        }
+    }
+    return 1;
 }
 
 int built_in_PS1(char** args){
