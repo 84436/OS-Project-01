@@ -54,3 +54,5 @@ int getIndex(char cmd[], int history_count);
 int built_in_cd(char **args);
 
 int built_in_PS1(char** args);
+
+int built_in_help(char** args);

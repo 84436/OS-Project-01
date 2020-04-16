@@ -89,8 +89,14 @@ int main() {
                 continue;
         }
 
-        if(strcmp(user_cmd, "PS1") == 0){
+        if (strcmp(user_cmd, "PS1") == 0){
             if (built_in_PS1(argv))
+                continue;
+        }
+
+        if (strcmp(user_cmd, "help") == 0)
+        {
+            if (built_in_help(argv))
                 continue;
         }
 
