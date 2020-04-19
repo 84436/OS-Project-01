@@ -72,6 +72,13 @@ int built_in_help(char** args)
       "Show a list of previously run commands.\n"
       "\n";
    
+   static char _HELP_STRING_HISTORY_SIZE[] =
+      "banhxeOSH | histsize\n"
+      "Syntax: histsize <size>\n"
+      "Resize the history list (default is 20).\n"
+      "If the given size is smallest than current, the list will be truncated to <size> most recent items.\n"
+      "\n";
+   
    static char _HELP_STRING_SELF[] =
       "banhxeOSH | What are you doing?\n"
       "You are reading help.\n"
@@ -90,6 +97,7 @@ int built_in_help(char** args)
       else if (strcmp(args[1], "ps1") == 0)     printf("%s", _HELP_STRING_PS1);
       else if (strcmp(args[1], "PS1") == 0)     printf("%s", _HELP_STRING_PS1);
       else if (strcmp(args[1], "history") == 0) printf("%s", _HELP_STRING_HISTORY);
+      else if (strcmp(args[1], "histsize") ==0) printf("%s", _HELP_STRING_HISTORY_SIZE);
       else if (strcmp(args[1], "help") == 0)    printf("%s", _HELP_STRING_SELF);
    }
    else
