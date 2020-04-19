@@ -164,13 +164,15 @@ int built_in_histsize(char** args, char*** history, int* history_count, unsigned
          }
 
          if(new_size > HISTSIZE || (new_size < HISTSIZE && new_size > current_count)){
-            for(int i = 0; i < current_count; i++){
-               strcpy(new_history[i], *history[i]);
+            for(int i = 0; i < current_count; i++) {
+               const char* _src = (*history)[i];
+               strcpy(new_history[i], _src);
             }
          }
          else if (new_size < HISTSIZE && new_size < current_count){
-            for(int i = new_size - 1; i >= 0; i--){
-               strcpy(new_history[i], *history[current_count - 1 - i]);
+            for(int i = 0; i < new_size; i++) {
+               const char* _src = (*history)[new_size + i - 1];
+               strcpy(new_history[i], _src);
             }
             *history_count = new_size; 
          }

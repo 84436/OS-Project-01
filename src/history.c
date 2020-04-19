@@ -40,12 +40,12 @@ void append_history(char** history, const char *cmd, int *history_count, unsigne
     }
     else
     {
-        for (int i = 1; i < HISTSIZE; i++)
+        for (int i = 1; i < current_history; i++)
         {
             strcpy(history[i - 1], history[i]);
         }
 
-        strcpy(history[HISTSIZE - 1], cmd);
+        strcpy(history[current_history - 1], cmd);
     }
 
     *history_count = current_history;
