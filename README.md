@@ -1,6 +1,8 @@
 # `osh` (Simple Shell)
 
-## Thông tin đồ án
+
+
+### Thông tin đồ án
 
 -   Đồ án cho môn Hệ Điều Hành (CSC10007-18CLC2), FIT @ HCMUS
 -   Nhóm gồm 3 thành viên
@@ -10,7 +12,35 @@
 
 
 
-## Công việc cần làm
+### Công việc cần làm
 
--   [ ] Vạch ra những công việc cần làm .\_.
--   [ ] Đọc về `fork()`, `exec()`, `wait()`, `dup2()`, `pipe()`u
+-   [x] Thực thi lệnh trong tiến trình con (sử dụng `fork()` và họ hàm `exec()`)
+-   [x] Thực thi lệnh trong nền (sử dụng `wait()`)
+-   [x] Lịch sử lệnh
+-   [x] I/O redirection (sử dụng `dup2()`
+-   [x] Pipe (sử dụng `pipe()` và `dup2()`)
+
+
+
+##### Task chính
+
+| Tính năng         | Chính       | Phụ (bugfix, v.v.) |
+| ----------------- | ----------- | ------------------ |
+| Parse             | Toàn, Thiện | Thiện              |
+| Thực thi lệnh     | Toàn        |                    |
+| Thực thi lệnh (&) | Toàn        |                    |
+| Lịch sử lệnh      | Phụng       |                    |
+| I/O redirection   | Toàn        |                    |
+| Pipe              | Toàn        |                    |
+
+
+
+##### Task phụ
+
+| Task                            | Thành viên tham gia |
+| ------------------------------- | ------------------- |
+| Working directory (`cd`, `pwd`) | Toàn                |
+| Viết Makefile                   | Thiện               |
+| Viết help                       | Thiện               |
+| `PS1` (Shell prompt)            | Thiện, Phụng        |
+
