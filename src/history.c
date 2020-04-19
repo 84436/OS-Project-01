@@ -1,23 +1,29 @@
 #include "_includes_.h"
 
-void init_history(char *history[LINE_LENGTH]) {
-    for (int i = 0; i < HISTSIZE; i++) {
-        history[i] = (char *) malloc(LINE_LENGTH);
+void init_history(char **history, unsigned HISTSIZE)
+{
+    for (int i = 0; i < HISTSIZE; i++)
+    {
+        history[i] = (char *)malloc(LINE_LENGTH * sizeof(char));
     }
 }
 
-
-void free_history(char **history) {
-    for (int i = 0; i < HISTSIZE; i++) {
-        if (history[i] != NULL) {
+void free_history(char **history, unsigned HISTSIZE)
+{
+    for (int i = 0; i < HISTSIZE; i++)
+    {
+        if (history[i] != NULL)
+        {
             free(history[i]);
         }
     }
 }
 
-void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_count) {
-    int current_history = (int) *history_count;
-    if (current_history != 0) {
+void append_history(char** history, const char *cmd, int *history_count, unsigned HISTSIZE)
+{
+    int current_history = (int)*history_count;
+    if (current_history != 0)
+    {
         if (strcmp(history[current_history - 1], "history") == 0 && strcmp(history[current_history - 1], cmd) == 0)
             return;
     }
@@ -45,7 +51,7 @@ void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_co
     *history_count = current_history;
 }
 
-char *get_history(char *history[LINE_LENGTH], int history_count, int index)
+char *get_history(char **history, int history_count, int index)
 {
     if (index > history_count || index - 1 < 0 || history_count == 0)
     {
@@ -54,7 +60,7 @@ char *get_history(char *history[LINE_LENGTH], int history_count, int index)
     return history[index - 1];
 }
 
-void export_history(char *history[LINE_LENGTH], int history_count)
+void export_history(char **history, int history_count)
 {
     if (history[0] == NULL)
         printf("No history found");
@@ -64,21 +70,16 @@ void export_history(char *history[LINE_LENGTH], int history_count)
     }
 }
 
-int getIndex(char cmd[], int history_count)
+int get_index(char *cmd, int history_count)
 {
+    char *temp = cmd;
+
     if (cmd[1] == '!' && cmd[2] == '\0')
         return history_count;
-    
-    char *index_array = (char *)malloc(LINE_LENGTH - 1);
-    int i = 1;
-    while (cmd[i] != '\0')
-    {
-        if(!isdigit(cmd[i]))
-            return -1;
 
-        index_array[i - 1] = cmd[i];
-        i = i + 1;
-    }
+    memmove(cmd, cmd + 1, strlen(cmd));
 
-    return atoi(index_array);
+    int index = get_number(cmd);
+    cmd = temp;
+    return index;
 }

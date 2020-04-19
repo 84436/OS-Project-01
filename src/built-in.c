@@ -99,3 +99,87 @@ int built_in_help(char** args)
 
    return 1;
 }
+
+
+int get_number(char* number_string) {
+   char *index_array = (char *)malloc(LINE_LENGTH - 1);
+   int i = 0;
+   while (number_string[i] != '\0')
+   {
+      if(!isdigit(number_string[i]))
+         return -1;
+
+      index_array[i] = number_string[i];
+      i = i + 1;
+    }
+
+    return atoi(index_array);
+}
+
+int built_in_history(char** args, char** history, int *history_count) {
+   long unsigned arg_count = 0;
+   while (args[arg_count + 1] != NULL) arg_count++;
+
+   if(arg_count == 0){
+      export_history(history, *history_count);
+   }
+   else if(arg_count == 1){
+      if(strcmp(args[1], "-c") == 0 || strcmp(args[1], "--clear") == 0) {
+         *history_count = 0;
+         printf("History's clear.\n");
+      }
+      else{
+         printf("history: Too many arguments.\n");
+      }
+   }
+   return 1;
+}
+
+int built_in_histsize(char** args, char*** history, int* history_count, unsigned int HISTSIZE){
+   long unsigned arg_count = 0;
+   while (args[arg_count + 1] != NULL) arg_count++;
+
+   if(arg_count == 0){
+      return 1; // do nothing
+   }
+   else if(arg_count == 1) {
+      int new_size = get_number(args[1]);
+      if(new_size == -1){
+         printf("Unknown size.\n");
+         return 1;
+      }
+
+      if(new_size == HISTSIZE){
+         printf("HISTSIZE's unchanged.\n");
+         return 1;
+      }
+      else if(new_size > HISTSIZE || new_size < HISTSIZE){
+         int current_count = *history_count;
+
+         char** new_history = (char**) malloc (new_size * sizeof(char*));
+         init_history(new_history, new_size);
+
+         if (setenv("HISTSIZE", args[1], 1) != 0){ 
+            perror("Changing HISTSIZE failed");
+         }
+
+         if(new_size > HISTSIZE || (new_size < HISTSIZE && new_size > current_count)){
+            for(int i = 0; i < current_count; i++){
+               strcpy(new_history[i], *history[i]);
+            }
+         }
+         else if (new_size < HISTSIZE && new_size < current_count){
+            for(int i = new_size - 1; i >= 0; i--){
+               strcpy(new_history[i], *history[current_count - 1 - i]);
+            }
+            *history_count = new_size; 
+         }
+         else {} // ?
+
+         char** temp = *history;
+         *history = new_history;
+         free_history(temp, HISTSIZE);
+      }
+   }
+   return 1;
+}

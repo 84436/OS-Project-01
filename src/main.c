@@ -2,6 +2,7 @@
 
 int main() {
     setenv("SHELLNAME", PS1_DEFAULT, 1); //startup shell name
+    setenv("HISTSIZE", HISTSIZE_DEFAULT, 1); //startup shell name
 
     bool is_running = true;
     int wait;
@@ -12,12 +13,19 @@ int main() {
     char user_cmd[LINE_LENGTH];
 
     //where the history is saved
+    char* HISTSIZE_string = getenv("HISTSIZE");
+    unsigned HISTSIZE = get_number(HISTSIZE_string);
     int history_count = 0;
-    char *cmd_history[LINE_LENGTH];
-    init_history(cmd_history);
-
+    char** cmd_history = (char**) malloc (HISTSIZE * sizeof(char*));
+    init_history(cmd_history, HISTSIZE);
+    
     while (is_running) {
         char* SHELLNAME = getenv("SHELLNAME");
+        
+        //move in function
+        HISTSIZE_string = getenv("HISTSIZE");
+        HISTSIZE = get_number(HISTSIZE_string);
+
         printf("%s", SHELLNAME);
         fflush(stdout);
         while (fgets(user_cmd, LINE_LENGTH, stdin) == NULL) {
@@ -33,11 +41,9 @@ int main() {
             continue;
         }
 
-
-
         if (user_cmd[0] == '!')
         {
-            int index = getIndex(user_cmd, history_count);
+            int index = get_index(user_cmd, history_count);
             char *last_cmd = get_history(cmd_history, history_count, index);
             
             if (last_cmd != NULL){
@@ -53,13 +59,7 @@ int main() {
         }
 
         // append new cmd to history
-        append_history(cmd_history, user_cmd, &history_count);
-
-        if (strcmp(user_cmd, "history") == 0)
-        {
-            export_history(cmd_history, history_count);
-            continue;
-        }
+        append_history(cmd_history, user_cmd, &history_count, HISTSIZE);
 
         //TODO: tokenizer here
         // parse_cmd(user_cmd, argv, &wait);
@@ -100,6 +100,18 @@ int main() {
                 continue;
         }
 
+        if(strcmp(user_cmd, "history") == 0)
+        {
+            if(built_in_history(argv, cmd_history, &history_count))
+                continue;
+        }
+
+        if(strcmp(user_cmd, "histsize") == 0){
+            if(built_in_histsize(argv, &cmd_history, &history_count, HISTSIZE)){
+                continue;
+            }
+        }
+
         pid_t pid = fork();
 
         switch (pid) {
@@ -125,8 +137,6 @@ int main() {
         }
 
     }
-
-    free_history(cmd_history);
-
+    free_history(cmd_history, HISTSIZE);
     return 0;
 }

@@ -10,10 +10,10 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#define LINE_LENGTH     100
-#define BUFFER_LENGTH   100
-#define HISTSIZE        20      // size of history array
-#define PS1_DEFAULT     "banhxeo> "
+#define LINE_LENGTH         100
+#define BUFFER_LENGTH       100
+#define HISTSIZE_DEFAULT    "20"     // size of history array
+#define PS1_DEFAULT         "banhxeo> "
 
 #define OP_NOTSP    0x15 // NAK; not supported 
 #define OP_BG       0x26 // &
@@ -38,18 +38,17 @@ void parent(pid_t child_pid, int wait);
 void child_pipe(char **argv_in, char **argv_out);
 
 // History
-void init_history(char *history[LINE_LENGTH]);
+void init_history(char **history, unsigned HISTSIZE);
 
-void free_history(char *history[LINE_LENGTH]);
+void free_history(char **history, unsigned HISTSIZE);
 
-void append_history(char *history[LINE_LENGTH], const char *cmd, int *history_count);
+void append_history(char **history, const char *cmd, int *history_count, unsigned HISTSIZE);
 
-char *get_history(char *history[LINE_LENGTH], int history_count, int index);
+char *get_history(char **history, int history_count, int index);
 
-void export_history(char *history[LINE_LENGTH], int history_count);
+void export_history(char **history, int history_count);
 
-int getIndex(char cmd[], int history_count);
-
+int get_index(char cmd[], int history_count);
 
 //Built-in
 int built_in_cd(char **args);
@@ -57,3 +56,10 @@ int built_in_cd(char **args);
 int built_in_PS1(char** args);
 
 int built_in_help(char** args);
+
+int built_in_history(char** args, char** history, int* history_count);
+
+int built_in_histsize(char** args, char*** history, int* history_count, unsigned int HISTSIZE);
+
+//Where to put?
+int get_number(char* number_string); //build-in.c
