@@ -14,24 +14,25 @@
 
 ### Công việc cần làm
 
--   [x] Thực thi lệnh trong tiến trình con (sử dụng `fork()` và họ hàm `exec()`)
--   [x] Thực thi lệnh trong nền (sử dụng `wait()`)
--   [x] Lịch sử lệnh
--   [x] I/O redirection (sử dụng `dup2()`
--   [x] Pipe (sử dụng `pipe()` và `dup2()`)
+Chú giải cho task chính:
+
+- :ok: = đã hoàn thành
+- :one: = cần xem xét lại (bugfix)
+- :two: = cần xem xét lại (enhancements)
 
 
 
 ##### Task chính
 
-| Tính năng         | Chính       | Phụ (bugfix, v.v.) |
-| ----------------- | ----------- | ------------------ |
-| Parse             | Toàn, Thiện | Thiện              |
-| Thực thi lệnh     | Toàn        |                    |
-| Thực thi lệnh (&) | Toàn        |                    |
-| Lịch sử lệnh      | Phụng       |                    |
-| I/O redirection   | Toàn        |                    |
-| Pipe              | Toàn        |                    |
+|      | Tính năng         | Chính       | Phụ (bugfix, v.v.) |
+| ---- | ----------------- | ----------- | ------------------ |
+| :two: | Parse             | Toàn, Thiện | Thiện              |
+| :ok: | Thực thi lệnh     | Toàn        |                    |
+| :ok: | Thực thi lệnh (&) | Toàn        |                    |
+| :ok: | Lịch sử lệnh      | Phụng       |                    |
+| :ok: | I/O redirection (`>`, `<`) | Toàn        |                    |
+| :two: | I/O redirection (`>>`, `<<`) |  | |
+| :ok: | Pipe              | Toàn        |                    |
 
 
 
