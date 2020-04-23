@@ -35,6 +35,10 @@ int main() {
 
         user_cmd[strcspn(user_cmd, "\n")] = '\0';
         //Trailing endline character (\n). For windows, change it to \r\n
+        if (user_cmd[0] == '\0')
+        {
+            continue;
+        }
 
         if (strcmp(user_cmd, "exit") == 0) {
             is_running = false;
