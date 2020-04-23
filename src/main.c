@@ -119,13 +119,12 @@ int main() {
                 perror("fork() failed!");
                 exit(EXIT_FAILURE);
             case 0:
-                // parse2() : temporary block
                 if (!(op == OP_FROMFILE || op == OP_TOFILE || op == OP_PIPE || op == OP_NOTSP))
                     child(argv);
-                else if (op == OP_FROMFILE)
-                    child_fromfile(argv, argv2);
-                else if (op == OP_TOFILE)
-                    child_tofile(argv, argv2);
+                else if (op == OP_FROMFILE || op == OP_FROMFILE_APP)
+                    child_fromfile(argv, argv2, (op == OP_FROMFILE_APP));
+                else if (op == OP_TOFILE || op == OP_TOFILE_APP)
+                    child_tofile(argv, argv2, (op == OP_TOFILE_APP));
                 else if (op == OP_PIPE)
                     child_pipe(argv, argv2);
                 exit(EXIT_FAILURE);

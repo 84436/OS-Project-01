@@ -31,9 +31,9 @@ void parse2(char *input, char **args1, unsigned *op, char **args2);
 // Execution
 void child(char *argv[]);
 
-void child_fromfile(char **argv, char **dir);
+void child_fromfile(char **argv, char **dir, bool is_append);
 
-void child_tofile(char **argv, char **dir);
+void child_tofile(char **argv, char **dir, bool is_append);
 
 void parent(pid_t child_pid, int wait);
 

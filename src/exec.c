@@ -7,8 +7,12 @@ void child(char *argv[]) {
     }
 }
 
-void child_fromfile(char **argv, char **dir) {
+void child_fromfile(char **argv, char **dir, bool is_append) {
     int fd; //file description
+
+    // WARNING: compatiability mode
+    // << = heredocs, not append mode.
+
     fd = open(dir[0], O_RDONLY); //O_RDONLY: Open for reading only
     if (fd == -1) {
         perror("Redirect to input file failed");
@@ -22,9 +26,12 @@ void child_fromfile(char **argv, char **dir) {
     child(argv);
 }
 
-void child_tofile(char **argv, char **dir) {
+void child_tofile(char **argv, char **dir, bool is_append) {
     int fd; //file description
-    fd = creat(dir[0], S_IRWXU); //S_IRWXU: Godmod(7) : read - write - execute
+    if (is_append)
+        fd = creat(dir[0], S_IRWXU); //S_IRWXU: Godmod(7) : read - write - execute
+    else
+        fd = open(dir[0], O_APPEND); // Open existing file in append mode
     if (fd == -1) {
         perror("Redirect to output file failed");
         exit(EXIT_FAILURE);
