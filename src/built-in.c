@@ -38,52 +38,60 @@ int built_in_PS1(char** args){
 
 int built_in_help(char** args)
 {
-   static char _HELP_STRING_OVERVIEW[] = 
-      "banhxeOSH\n"
+   static char _HELP_STRING_OVERVIEW[] =
       "Type \"help [command]\" to get command-specific help.\n"
       "All of the built-in commands will only take the first argument, if available.\n"
-      "\n"
       "[Built-in commands]\n"
-      "cd      :  Change current working directory\n"
-      "PS1     :  Change shell prompt\n"
-      "history :  Reveal history\n"
-      "help    :  What you're reading now.\n"
-      "\n"
-      "[Dotfiles] (Work in progress):\n"
-      "~/.banhxeorc : Startup script / Configuration file\n"
-      "ARM ASM ASMR.\n"
+      "cd       :  Change current working directory\n"
+      "PS1      :  Change shell prompt\n"
+      "history  :  Reveal history (* alternative syntax available)\n"
+      "histsize : Change history list size\n"
+      "help     :  What you're reading now.\n"
+      "exit     :  Leave banhxeOSH\n"
       "\n";
    
    static char _HELP_STRING_CD[] =
-      "banhxeOSH | cd\n"
-      "Syntax: cd <directory name>\n"
+      "Syntax   : cd <directory name>\n"
+      "Function : Change the current working directory.\n"
       "\n";
    
    static char _HELP_STRING_PS1[] =
-      "banhxeOSH | PS1\n"
-      "Syntax: PS1 [prompt]\n"
-      "Change the shell prompt.\n"
-      "If no prompt is given, reset to default.\n"
+      "Syntax   : PS1 [prompt]\n"
+      "Function : Change the shell prompt. If no prompt is given, reset to default.\n"
       "\n";
 
    static char _HELP_STRING_HISTORY[] =
-      "banhxeOSH | history\n"
-      "Syntax: history\n"
-      "Show a list of previously run commands.\n"
+      "Syntax   : history\n"
+      "Function : Show a list of previously run commands,\n"
+      "           incrementally numbered from oldest to newest.\n"
+      "Alternative syntax:\n"
+      "    !! = reveal and run latest command.\n"
+      "    !x = reveal and run command [x] in history list.\n"
       "\n";
    
    static char _HELP_STRING_HISTORY_SIZE[] =
-      "banhxeOSH | histsize\n"
-      "Syntax: histsize <size>\n"
-      "Resize the history list (default is 20).\n"
-      "If the given size is smallest than current, the list will be truncated to <size> most recent items.\n"
+      "Syntax   : histsize <size>\n"
+      "Function : Resize the history list (default is 20).\n"
+      "           If the given size is smallest than current,\n"
+      "           the list will be truncated to <size> most recent items.\n"
       "\n";
    
    static char _HELP_STRING_SELF[] =
-      "banhxeOSH | What are you doing?\n"
-      "You are reading help.\n"
+      "\"help\" is a collection of help messages for banhxeOSH built-in commands.\n";
+   
+   static char _HELP_STRING_EXIT[] =
+      "Syntax   : exit\n"
+      "Function : Exits banhxeOSH.\n"
+      "           Currently no settings are persistent\n"
+      "           (i.e. shell prompt and history list is not saved.)\n"
       "\n";
    
+   static char _HELP_STRING_NOT_FOUND[] =
+      "help : Specified command not found.\n"
+      "If the command is not a part of banhxeOSH\'s built-ins,\n"
+      "try referring to manpages, GNU info, and/or the command's own help system.\n"
+      "\n";
+
    long unsigned arg_count = 0;
    while (args[arg_count + 1] != NULL) arg_count++;
 
@@ -93,12 +101,14 @@ int built_in_help(char** args)
    }
    else if (arg_count == 1)
    {
-           if (strcmp(args[1], "cd") == 0)      printf("%s", _HELP_STRING_CD);
-      else if (strcmp(args[1], "ps1") == 0)     printf("%s", _HELP_STRING_PS1);
-      else if (strcmp(args[1], "PS1") == 0)     printf("%s", _HELP_STRING_PS1);
-      else if (strcmp(args[1], "history") == 0) printf("%s", _HELP_STRING_HISTORY);
-      else if (strcmp(args[1], "histsize") ==0) printf("%s", _HELP_STRING_HISTORY_SIZE);
-      else if (strcmp(args[1], "help") == 0)    printf("%s", _HELP_STRING_SELF);
+      string_lower(args[1]);
+           if (strcmp(args[1], "cd") == 0)         printf("%s", _HELP_STRING_CD);
+      else if (strcmp(args[1], "ps1") == 0)        printf("%s", _HELP_STRING_PS1);
+      else if (strcmp(args[1], "history") == 0)    printf("%s", _HELP_STRING_HISTORY);
+      else if (strcmp(args[1], "histsize") == 0)   printf("%s", _HELP_STRING_HISTORY_SIZE);
+      else if (strcmp(args[1], "help") == 0)       printf("%s%s", _HELP_STRING_SELF, _HELP_STRING_OVERVIEW);
+      else if (strcmp(args[1], "exit") == 0)       printf("%s", _HELP_STRING_EXIT);
+      else                                         printf("%s", _HELP_STRING_NOT_FOUND);
    }
    else
    {
@@ -108,6 +118,12 @@ int built_in_help(char** args)
    return 1;
 }
 
+// tolower() a string
+void string_lower(char* str)
+{
+   for (int i = 0; i < strlen(str); i++)
+      str[i] = tolower(str[i]);
+}
 
 int get_number(char* number_string) {
    char *index_array = (char *)malloc(LINE_LENGTH - 1);

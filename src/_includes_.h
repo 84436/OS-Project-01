@@ -63,5 +63,6 @@ int built_in_history(char** args, char** history, int* history_count);
 
 int built_in_histsize(char** args, char*** history, int* history_count, unsigned int HISTSIZE);
 
-//Where to put?
-int get_number(char* number_string); //build-in.c
+// Utilities
+int get_number(char* number_string);
+void string_lower(char* str);
