@@ -7,7 +7,7 @@ void child(char *argv[]) {
     }
 }
 
-void child_fromfile(char **argv, char **dir, bool is_append) {
+void child_fromfile(char **argv, char **dir) {
     int fd; //file description
     fd = open(dir[0], O_RDONLY); //O_RDONLY: Open for reading only
     if (fd == -1) {
@@ -24,10 +24,18 @@ void child_fromfile(char **argv, char **dir, bool is_append) {
 
 void child_tofile(char **argv, char **dir, bool is_append) {
     int fd; //file description
-    if (is_append)
-        fd = open(dir[0], O_APPEND); // Open existing file in append mode
+
+    // Append only if ">>" AND file exists
+    if (is_append && access(dir[0], F_OK) != -1)
+        /* Quoted from open(2):
+         * "The argument flags MUST include one of the following access modes:
+         * O_RDONLY, O_WRONLY, or O_RDWR. These request opening the file
+         * read-only, write-only, or read/write, respectively."
+         */
+        fd = open(dir[0], O_WRONLY | O_APPEND);
     else
         fd = creat(dir[0], S_IRWXU); //S_IRWXU: Godmod(7) : read - write - execute
+    
     if (fd == -1) {
         perror("Redirect to output file failed");
         exit(EXIT_FAILURE);
