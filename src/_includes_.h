@@ -25,42 +25,28 @@
 
 // Parser
 void parse_cmd(char input[], char *argv[], int *wait);
-
 void parse2(char *input, char **args1, unsigned *op, char **args2);
 
 // Execution
 void child(char *argv[]);
-
-void child_fromfile(char **argv, char **dir, bool is_append);
-
+void child_fromfile(char **argv, char **dir);
 void child_tofile(char **argv, char **dir, bool is_append);
-
-void parent(pid_t child_pid, int wait);
-
 void child_pipe(char **argv_in, char **argv_out);
+void parent(pid_t child_pid, int wait);
 
 // History
 void init_history(char **history, unsigned HISTSIZE);
-
 void free_history(char **history, unsigned HISTSIZE);
-
 void append_history(char **history, const char *cmd, int *history_count, unsigned HISTSIZE);
-
 char *get_history(char **history, int history_count, int index);
-
 void export_history(char **history, int history_count);
-
 int get_index(char cmd[], int history_count);
 
 //Built-in
 int built_in_cd(char **args);
-
 int built_in_PS1(char** args);
-
 int built_in_help(char** args);
-
 int built_in_history(char** args, char** history, int* history_count);
-
 int built_in_histsize(char** args, char*** history, int* history_count, unsigned int HISTSIZE);
 
 // Utilities
