@@ -61,9 +61,10 @@ int built_in_help(char** args)
       "\n";
 
    static char _HELP_STRING_HISTORY[] =
-      "Syntax   : history\n"
+      "Syntax   : history [-c]\n"
       "Function : Show a list of previously run commands,\n"
       "           incrementally numbered from oldest to newest.\n"
+      "           Append \"-c\" to clear history.\n"
       "Alternative syntax:\n"
       "    !! = reveal and run latest command.\n"
       "    !x = reveal and run command [x] in history list.\n"
