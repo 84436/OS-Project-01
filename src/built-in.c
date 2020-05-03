@@ -152,9 +152,9 @@ int built_in_history(char** args, char** history, int *history_count) {
          *history_count = 0;
          printf("History's clear.\n");
       }
-      else{
-         printf("history: Too many arguments.\n");
-      }
+   }
+   else{
+      printf("history: Too many arguments.\n");
    }
    return 1;
 }
