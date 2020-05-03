@@ -27,7 +27,7 @@
 | `help`                                  |      | x     |       |
 | Makefile                                |      | x     |       |
 
-
+#### *Tất cả các chức năng đều đạt độ hoàn thiện 100%
 
 ### Hướng thiết kế của đồ án
 ##### Ngôn ngữ và môi trường lập trình
@@ -38,6 +38,7 @@
 
 ##### Kịch bản của chương trình
 
+0. Dùng `make` để build chương trình. Nhập `./bin/osh` để chạy chương trình lên. 
 1. Khi shell bắt đầu chạy, nó sẽ vào một vòng lặp Read-Exec (đọc lệnh - thực thi) cho tới khi nhận được lệnh `exit`
 2. Đối vối Read: shell sẽ thông qua `parse2()` để đọc-hiểu lệnh
    - Mặc định, `parse2()` nhận nhóm {lệnh + tham số} đầu tiên
@@ -105,7 +106,7 @@
       - Trong trường hợp có flag `-c` (tức yêu cầu xóa lịch sử), biến đếm số entry trong history sẽ được đặt lại về `0`. [^(3)]
       
   - `!x` hoặc `!!`
-      
+    
       - Detect dấu `!` để thực hiện lệnh này. 
       - Tất cả chữ cái sau dấu `!` tạo thành một mảng kí tự được coi là index cần truy cập tới. Hàm`getIndex()` dùng để chuyển mảng đó thành số để có thể loại trừ được những lệnh không hợp lệ (index chứa kí tự, khoảng trắng,...)
       
@@ -151,7 +152,6 @@
 Các lệnh built-in của shell hiện chỉ mang tính sơ khai và phục vụ một số tính năng phụ (như thay đổi kích thước lịch sử lệnh sử dụng `histsize`, xem hướng dẫn sử dụng `histsize`, v.v.). Lớp lệnh này có thể phát triển thêm nếu có thời gian mở rộng.
 
 
-
 ### Các testcase
 **Thực thi lệnh**
 ![](https://i.imgur.com/fuwVskl.png)
@@ -186,7 +186,8 @@ Các lệnh built-in của shell hiện chỉ mang tính sơ khai và phục v�
 
 **Thay đổi tên shell**
 
-\<chèn screenshot\>
+
+![](https://i.imgur.com/Jo0DUDS.png)
 
 
 
@@ -202,7 +203,18 @@ Các lệnh built-in của shell hiện chỉ mang tính sơ khai và phục v�
 
 ---
 
+### Lời cảm ơn:
+Để hoàn thiện được đồ án này, không thể nhắc tới sự hướng dẫn từ những thầy cô ở HCMUS. Gửi lời cảm ơn chân thành đến:
 
+-   Thầy **Lê Quốc Hòa**, giảng viên phụ trách bộ môn Hệ Điều Hành.
+-   Cô **Chung Thùy Linh**, giảng viên hướng dẫn thực hành và là người trực tiếp hướng dẫn đồ án.
+
+Một lời cảm ơn nữa đến những người đồng đội đã cùng nhau thực hiện và hoàn thiện đồ án này cho tới thời điểm cuối cùng.
+
+> Chúc mọi người có nhiều sức khỏe và thành công trong công việc.
+
+### Tài liệu tham khảo:
+Linux's man page ở dạng [web](https://linux.die.net/man/) và dạng `CLI` với lệnh `man <lệnh cần tra cứu>.`
 
 ### Footnotes
 
@@ -210,4 +222,5 @@ Các lệnh built-in của shell hiện chỉ mang tính sơ khai và phục v�
 
 [^(2)]: Bài học của nhóm: đây không phải là C++. `open(2)` nêu rõ flag chỉ chế độ mở **phải** đi kèm một trong 3 mode: `O_RDONLY` (chỉ đọc), `O_WRONLY` (chỉ ghi), hoặc `O_RDWR` (đọc và ghi).
 
-[^(3)]: Mỗi một entry mới sẽ được ghi đè bắt đầu từ `history_count` lúc đó (tức bắt đầu từ `[0]`, ở đầu list), nên cách làm này dù quick-and-dirty nhưng có lẽ an toàn (entry cũ không thể truy cập được).  Nếu làm đúng thì phải `free` từng entry một trên history.
+[^(3)]: Mỗi một entry mới sẽ được ghi đè bắt đầu từ `history_count` lúc đó (tức bắt đầu từ `[0]`, ở đầu list), nên cách làm này dù quick-and-dirty nhưng có lẽ an toàn (entry cũ không thể truy cập được).  Ta không cần phải `free()` hay `allocate` lại từ đầu vì cơ bản khi người dùng gõ lệnh mới sẽ lưu đè lên vùng nhớ cũ - thứ mà ta đã không cần quan tâm tới nữa.
+
