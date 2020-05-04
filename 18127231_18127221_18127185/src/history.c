@@ -62,7 +62,7 @@ char *get_history(char **history, int history_count, int index)
 
 void export_history(char **history, int history_count)
 {
-    if (history[0] == NULL)
+    if (history_count == 0)
         printf("No history found");
     for (int i = 0; i < history_count; i++)
     {
